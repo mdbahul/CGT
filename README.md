@@ -12,6 +12,8 @@
 [1, 1, 0] --alg-->[0, 0]
 Finished! Graph IS constructable with Havel Hakimi algorithm.
 ```
+## Graph 
+![Graph Drawing](graph.png)
 
 ## Checking Eulerian Graph and hence finding Euler path using Fluery Algorithm
 
