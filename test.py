@@ -58,8 +58,48 @@ def plot_graph(G):
     nx.draw(G, pos, with_labels=True, node_color='lightblue', node_size=500, font_size=10, font_color='black')
     plt.show()
 
+# Check if the graph is connected
+def is_connected(graph):
+    start_node = next((node for node in graph if len(graph[node]) > 0), None)
+    if start_node is None:
+        return True  # Trivially connected if no edges
+
+    visited = set()
+
+    def dfs(v):
+        visited.add(v)
+        for neighbor in graph[v]:
+            if neighbor not in visited:
+                dfs(neighbor)
+
+    dfs(start_node)
+
+    for node in graph:
+        if len(graph[node]) > 0 and node not in visited:
+            return False
+
+    return True
+
+# Check if the graph is Eulerian
+def is_eulerian(graph):
+    odd_degree_nodes = [node for node in graph if len(graph[node]) % 2 != 0]
+
+    if not is_connected(graph):
+        print("The graph is not connected, so it cannot be Eulerian.")
+        return False
+    
+    if len(odd_degree_nodes) == 0:
+        print("The graph has an Eulerian circuit.")
+        return True
+    elif len(odd_degree_nodes) == 2:
+        print(f"The graph has an Eulerian path. The odd degree vertices are: {odd_degree_nodes}")
+        return True
+    else:
+        print(f"The graph is not Eulerian. The vertices with odd degrees are: {odd_degree_nodes}")
+        return False
+
 # Example degree sequence
-degree_sequence = [3, 3, 2, 2, 2, 2]  # Example valid degree sequence
+degree_sequence = [ 3, 3, 2, 2]  # Example valid degree sequence
 
 # Create the graph
 graph = create_graph_from_deg_sequence(degree_sequence)
@@ -67,4 +107,5 @@ graph = create_graph_from_deg_sequence(degree_sequence)
 # Plot the graph if it's valid
 if graph:
     plot_graph(graph)
+    is_eulerian(graph)
     
