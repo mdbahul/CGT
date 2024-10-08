@@ -1,9 +1,8 @@
-# CGT
- Assignment
+# CGT Assignment
 
  degree_sequence = [ 4, 2, 2, 2,2]
 
-##Havel Hakimi Algorithm : 
+## Havel Hakimi Algorithm : 
  ```
  [4, 2, 2, 2, 2] --sort--> [4, 2, 2, 2, 2]
 [4, 2, 2, 2, 2] --alg-->[1, 1, 1, 1]
@@ -14,7 +13,7 @@
 Finished! Graph IS constructable with Havel Hakimi algorithm.
 ```
 
-##Checking Eulerian Graph and hence finding Euler path using Fluery Algorithm
+## Checking Eulerian Graph and hence finding Euler path using Fluery Algorithm
 
 ```
 The graph has an Eulerian circuit.
