@@ -1,4 +1,5 @@
 import networkx as nx
+import jhola as jhol
 import matplotlib.pyplot as plt
 
 #processes havel_hakimi algorithms
@@ -99,7 +100,7 @@ def is_eulerian(graph):
         return False
 
 # Example degree sequence
-degree_sequence = [ 3, 3, 2, 2]  # Example valid degree sequence
+degree_sequence = [ 4, 2, 2, 2,2]  # Example valid degree sequence
 
 # Create the graph
 graph = create_graph_from_deg_sequence(degree_sequence)
@@ -108,4 +109,7 @@ graph = create_graph_from_deg_sequence(degree_sequence)
 if graph:
     plot_graph(graph)
     is_eulerian(graph)
+
+graph_dict = jhol.deg_seq_to_dict(degree_sequence)
+print("Euler Path : ", jhol.find_eulerian_path(graph_dict))
     
