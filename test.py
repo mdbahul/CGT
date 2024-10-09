@@ -100,7 +100,7 @@ def is_eulerian(graph):
         return False
 
 # Example degree sequence
-degree_sequence = [ 4, 2, 2, 2,2]  # Example valid degree sequence
+degree_sequence = [ 4, 2, 2, 2 ,5]  # Example valid degree sequence
 
 # Create the graph
 graph = create_graph_from_deg_sequence(degree_sequence)
@@ -111,5 +111,15 @@ if graph:
     is_eulerian(graph)
 
 graph_dict = jhol.deg_seq_to_dict(degree_sequence)
+print(graph_dict)
 print("Euler Path : ", jhol.find_eulerian_path(graph_dict))
+
+weighted_graph = jhol.assign_random_weights(graph_dict)
+print(weighted_graph)
+
+dijkstra_result = jhol.dijkstra(weighted_graph, 1)
+print(dijkstra_result)
+
+jhol.draw_weighted_graph(weighted_graph)
+
     
