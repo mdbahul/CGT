@@ -22,16 +22,16 @@ Finished! Graph IS constructable with Havel Hakimi algorithm.
 ```
 The graph is not Eulerian. The vertices with odd degrees are: [0, 1, 2, 3]
 ``` 
-###Weighted Graph 
+## Weighted Graph 
 ![Weighted Graph](weighted.png)
 
-##Dijkstra Algorithm Result
+## Dijkstra Algorithm Result
 ```
 Enter the starting node for Dijkstra's algorithm: 0
 {3: 8, 2: 7, 1: 14, 0: 0, 5: 15, 4: 9}
 ```
 
-##Min Spanning Tree
+## Min Spanning Tree
 ![Min spanning Tree Diagram](min_spanning.png)
 
 
