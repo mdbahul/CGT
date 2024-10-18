@@ -18,7 +18,7 @@ def display_menu():
     print("5. Minimum Spanning Tree")
     print("6. edge-vertex-K-Connected")
     print("7. Draw Weighted Graph")
-    print("8. Show Degree Sequence as Dictionary")
+    print("8. Show Graph as Dictionary")
     print("9. Show weighted graph")
     print("0. Exit")
 
@@ -53,12 +53,12 @@ def main():
             func.draw_weighted_graph(prim_mst)
         elif choice == 6:
             # Find vertex connectivity
-            vertex_conn_value, vertices_removed = func.vertex_connectivity(graph_dict)
+            vertex_conn_value, vertices_removed = func.vertex_connectivity(weighted_graph)
             print(f"Vertex Connectivity: {vertex_conn_value}")
             print(f"Vertices to remove to disconnect the graph: {vertices_removed}")
 
             # Find edge connectivity
-            edge_conn_value, edges_removed = func.edge_connectivity(graph_dict)
+            edge_conn_value, edges_removed = func.edge_connectivity(weighted_graph)
             print(f"Edge Connectivity: {edge_conn_value}")
             print(f"Edges to remove to disconnect the graph: {edges_removed}")
 

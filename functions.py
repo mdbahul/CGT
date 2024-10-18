@@ -1,6 +1,7 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 from collections import defaultdict
+from itertools import combinations
 import heapq
 import random
 random.seed(69)
@@ -273,38 +274,51 @@ def draw_weighted_graph(graph):
     plt.title("Graph Visualization")
     plt.show()
 
+
+
 # Function to remove vertices from the graph
 def remove_vertices(graph, vertices_to_remove):
     new_graph = {}
     for vertex, neighbors in graph.items():
         if vertex not in vertices_to_remove:
-            new_graph[vertex] = [n for n in neighbors if n not in vertices_to_remove]
+            new_graph[vertex] = {n: w for n, w in neighbors.items() if n not in vertices_to_remove}
     return new_graph
 
 # Function to remove edges from the graph
 def remove_edges(graph, edges_to_remove):
     new_graph = {}
     for vertex, neighbors in graph.items():
-        new_neighbors = []
-        for neighbor in neighbors:
+        new_neighbors = {}
+        for neighbor, weight in neighbors.items():
             if (vertex, neighbor) not in edges_to_remove and (neighbor, vertex) not in edges_to_remove:
-                new_neighbors.append(neighbor)
+                new_neighbors[neighbor] = weight
         new_graph[vertex] = new_neighbors
     return new_graph
 
 # Function to calculate vertex connectivity
 def vertex_connectivity(graph):
+    def dfs(graph, vertex, visited):
+        visited.add(vertex)
+        for neighbor in graph[vertex]:
+            if neighbor not in visited:
+                dfs(graph, neighbor, visited)
+
+    def is_connected(graph):
+        vertices = list(graph.keys())
+        visited = set()
+        dfs(graph, vertices[0], visited)
+        return len(visited) == len(vertices)
+
     vertices = list(graph.keys())
     n = len(vertices)
-    
+
+    # Try removing k vertices and checking connectivity
     for k in range(1, n):
-        for i in range(len(vertices)):
-            for j in range(i + 1, len(vertices)):
-                for l in range(j + 1, len(vertices)):
-                    vertices_to_remove = [vertices[i], vertices[j], vertices[l]]
-                    new_graph = remove_vertices(graph, vertices_to_remove)
-                    if not is_connected(new_graph):
-                        return len(vertices_to_remove), vertices_to_remove
+        from itertools import combinations
+        for vertices_to_remove in combinations(vertices, k):
+            new_graph = remove_vertices(graph, vertices_to_remove)
+            if not is_connected(new_graph):
+                return k, vertices_to_remove
 
     return n - 1, []
 
@@ -316,15 +330,30 @@ def edge_connectivity(graph):
             if (vertex, neighbor) not in edges and (neighbor, vertex) not in edges:
                 edges.append((vertex, neighbor))
 
-    for k in range(1, len(edges) + 1):
-        for i in range(len(edges)):
-            for j in range(i + 1, len(edges)):
-                for l in range(j + 1, len(edges)):
-                    edges_to_remove = [edges[i], edges[j], edges[l]]
-                    new_graph = remove_edges(graph, edges_to_remove)
-                    if not is_connected(new_graph):
-                        return len(edges_to_remove), edges_to_remove
+    # Function for Depth First Search (DFS)
+    def dfs(graph, vertex, visited):
+        visited.add(vertex)
+        for neighbor in graph[vertex]:
+            if neighbor not in visited:
+                dfs(graph, neighbor, visited)
 
+    # Function to check if the graph is connected
+    def is_connected(graph):
+        vertices = list(graph.keys())
+        visited = set()
+
+        # Start DFS from the first vertex
+        dfs(graph, vertices[0], visited)
+
+        # If all vertices are visited, the graph is connected
+        return len(visited) == len(vertices)
+    # Try removing k edges and checking connectivity
+    for k in range(1, len(edges) + 1):
+        from itertools import combinations
+        for edges_to_remove in combinations(edges, k):
+            new_graph = remove_edges(graph, edges_to_remove)
+            if not is_connected(new_graph):
+                return k, edges_to_remove
     return len(edges), []
 
 # Prim's Algorithm
