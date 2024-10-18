@@ -37,9 +37,9 @@ Enter the starting node for Dijkstra's algorithm: 0
 
 ## Edge-Vertex-K-connectivity
 ```
-Vertex Connectivity: 5
-Vertices to remove to disconnect the graph: []
-Edge Connectivity: 3
-Edges to remove to disconnect the graph: [(3, 2), (1, 5), (0, 4)]
-The graph is 5-connected.
+Vertex Connectivity: 2
+Vertices to remove to disconnect the graph: (1, 0)
+Edge Connectivity: 2
+Edges to remove to disconnect the graph: ((1, 5), (0, 4))
+The graph is 2-connected.
 ```
