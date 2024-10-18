@@ -356,6 +356,50 @@ def edge_connectivity(graph):
                 return k, edges_to_remove
     return len(edges), []
 
+def find_fundamental_cutsets(G, mst):
+    # Convert the MST dictionary to a NetworkX graph
+    mst_graph = nx.Graph()
+    for u, neighbors in mst.items():
+        for v in neighbors:
+            mst_graph.add_edge(u, v)
+
+    cutsets = []
+    for edge in mst_graph.edges():
+        mst_graph.remove_edge(*edge)  
+        components = list(nx.connected_components(mst_graph))  
+        cutset = []
+        
+        # Find the cutset edges in the original graph G
+        for u, v in G.edges():
+            if (u in components[0] and v in components[1]) or (u in components[1] and v in components[0]):
+                cutset.append((u, v))
+        
+        cutsets.append((edge, cutset))  
+        mst_graph.add_edge(*edge)  # Add the edge back
+
+    return cutsets
+
+
+def find_fundamental_circuits(G, mst):
+    # Convert the MST dictionary to a NetworkX graph
+    mst_graph = nx.Graph()
+    for u, neighbors in mst.items():
+        for v in neighbors:
+            mst_graph.add_edge(u, v)
+
+    circuits = []
+    for u, v in G.edges():
+        if not mst_graph.has_edge(u, v):
+            mst_graph.add_edge(u, v)  # Temporarily add the edge
+            try:
+                cycle = list(nx.find_cycle(mst_graph))  # Find the cycle created
+                circuits.append(cycle)
+            except nx.NetworkXNoCycle:  # Handle cases where no cycle is found
+                pass
+            mst_graph.remove_edge(u, v)  # Remove the edge after checking
+
+    return circuits
+
 # Prim's Algorithm
 def prim(graph, start):
     mst = defaultdict(dict)

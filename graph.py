@@ -1,4 +1,5 @@
 import functions as func
+import networkx as nx
 
 user_input = input("Enter a list of degrees separated by spaces: ")
 degree_sequence = list(map(int, user_input.split()))
@@ -48,9 +49,16 @@ def main():
             dijkstra_result = func.dijkstra(weighted_graph, start_node)
             print(dijkstra_result)
         elif choice == 5:
-            prim_mst = func.prim(weighted_graph, 0)
-            print("Prim's MST:", dict(prim_mst))
-            func.draw_weighted_graph(prim_mst)
+            mst = func.prim(weighted_graph,0)
+            print("Prim's MST:", dict(mst))
+            func.draw_weighted_graph(mst)
+            cutsets = func.find_fundamental_cutsets(graph, mst)
+            for edge, cutset in cutsets:
+                print(f"Edge: {edge}, Cutset: {cutset}")
+
+            circuits = func.find_fundamental_circuits(graph, mst)
+            for index, circuit in enumerate(circuits):
+                print(f"Circuit {index + 1}: {circuit}")
         elif choice == 6:
             # Find vertex connectivity
             vertex_conn_value, vertices_removed = func.vertex_connectivity(weighted_graph)
